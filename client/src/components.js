@@ -5,11 +5,12 @@ export default class ComponentsBuilder {
   #screen
   #layout
   #input
+  #chat
 
   constructor() { }
 
   #baseComponents() {
-    return Object.assign({
+    return {
       border: 'line',
       mouse: true,
       keys: true,
@@ -19,7 +20,7 @@ export default class ComponentsBuilder {
         inverse: true
       },
       tag: true
-    })
+    }
   }
 
   setScreen({ title }) {
@@ -65,10 +66,24 @@ export default class ComponentsBuilder {
     return this
   }
 
+  setChatComponent() {
+    this.#chat = blessed.list({
+      ...this.#baseComponents(),
+      parent: this.#layout,
+      align: 'left',
+      width: '50%',
+      height: '90%',
+      items: ['{bold}Messenger{/}']
+    })
+
+    return this
+  }  
+
   build() {
     const components = {
       screen: this.#screen,
-      input: this.#input
+      input: this.#input,
+      chat: this.#chat
     }
 
     return components
